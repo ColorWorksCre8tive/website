@@ -1,0 +1,48 @@
+# Netlify deployment configuration for ColorWorks Creative
+# ----------------------------------------------------------------
+# This file tells Netlify how to build and serve the Next.js site.
+# Deploy steps:
+#   1. Push this repo to GitHub (or your Git provider of choice).
+#   2. In Netlify: "Add new site" → "Import an existing project"
+#   3. Pick the repo. Netlify auto-detects Next.js and uses these settings.
+#   4. Set the production domain (colorworkscreative.com) under
+#      Site settings → Domain management.
+#   5. (Optional) Set SITE_URL env var to your final domain.
+# ----------------------------------------------------------------
+
+[build]
+  command = "bun run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NEXT_USE_NETLIFY_EDGE = "true"
+
+# Use the Next.js Runtime (official) — handles SSR, image optimization,
+# incremental static regeneration and edge functions automatically.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Long-cache immutable Next.js assets
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Security headers — SEO + best practice
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+# Force-trailing-slash behavior kept off (matches Next.js default).
+# Sitemap and robots are auto-served from /sitemap.xml and /robots.txt
