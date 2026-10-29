@@ -233,7 +233,7 @@ export const SERVICES: Service[] = [
 /* ------------------------------------------------------------------ */
 
 const img = (folder: string, file: string, alt: string, caption?: string): ProjectImage => ({
-  src: `/images/projects/${folder}/${file}`,
+  src: `/images/${folder}/${file}`,
   alt,
   caption,
 });
