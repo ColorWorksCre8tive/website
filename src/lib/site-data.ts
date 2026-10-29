@@ -232,8 +232,13 @@ export const SERVICES: Service[] = [
 /*  PORTFOLIO PROJECTS                                                */
 /* ------------------------------------------------------------------ */
 
+function imgUrl(src: string, w: number = 1080, q: number = 75): string {
+  if (src.endsWith(".svg") || src.endsWith(".gif")) return src;
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=${q}`;
+}
+
 const img = (folder: string, file: string, alt: string, caption?: string): ProjectImage => ({
-  src: `/images/${folder}/${file}`,
+  src: imgUrl(`/images/${folder}/${file}`),
   alt,
   caption,
 });
@@ -616,7 +621,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2022-02-15",
     readingTime: "5 min read",
     tags: ["branding", "tips & tricks"],
-    image: "/images/blog/rebrand-vs-refresh.jpg",
+        image: imgUrl("/images/blog/rebrand-vs-refresh.jpg", 640),
   },
   {
     slug: "communication-is-key-how-to-communicate-with-a-graphic-designer",
@@ -626,7 +631,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2022-03-22",
     readingTime: "4 min read",
     tags: ["process", "tips & tricks"],
-    image: "/images/blog/how-to-communicate.jpg",
+image: imgUrl("/images/blog/how-to-communicate.jpg", 640),
   },
   {
     slug: "why-does-good-graphic-design-cost-more",
@@ -636,7 +641,7 @@ export const BLOG_POSTS: BlogPost[] = [
     date: "2022-04-12",
     readingTime: "6 min read",
     tags: ["company", "tips & tricks"],
-    image: "/images/blog/costs-more.jpg",
+    image: imgUrl("/images/blog/costs-more.jpg", 640), 
   },
 ];
 
