@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useScrollReveal } from "@/lib/use-scroll-reveal";
 import { Hero } from "@/components/site/hero";
@@ -13,24 +14,29 @@ import { Contact } from "@/components/site/contact";
 import { SiteHeader } from "@/components/site/site-header";
 import { SiteFooter } from "@/components/site/site-footer";
 
-export default function Home() {
-  useScrollReveal("home");
+function SubmittedContact() {
   const searchParams = useSearchParams();
   const submitted = searchParams.get("submitted") === "true";
+  return <Contact submitted={submitted} />;
+}
+
+export default function Home() {
+  useScrollReveal("home");
 
   return (
     <>
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        {/* Work moved up — this is what visitors look for first */}
         <Work />
         <Philosophy />
         <Services />
         <Testimonials />
         <About />
         <Blog />
-        <Contact submitted={submitted} />
+        <Suspense fallback={<Contact submitted={false} />}>
+          <SubmittedContact />
+        </Suspense>
       </main>
       <SiteFooter />
     </>
