@@ -8,8 +8,7 @@ export function About() {
           {/* Left: founder portrait */}
           <div className="lg:col-span-5">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-2xl shadow-navy/15">
-              <img src="/images/about/founder-portrait.jpeg" alt={`${SITE.founder} — founder of ColorWorks Creative`} className="object-cover" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} loading="eager" />
-              <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-navy/85 via-navy/40 to-transparent">
+              <img src={`/_next/image?url=${encodeURIComponent("/images/about/founder-portrait.jpeg")}&w=800&q=75`} alt={`${SITE.founder} — founder of ColorWorks Creative`} className="object-cover" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} loading="eager" />              <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-navy/85 via-navy/40 to-transparent">
                 <p className="font-display text-xl font-bold text-cream leading-tight">
                   {SITE.founder}
                 </p>
