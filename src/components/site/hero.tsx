@@ -109,8 +109,7 @@ function HeroImage() {
 
       {/* Main image */}
       <div className="absolute inset-0 rounded-sm overflow-hidden shadow-2xl shadow-navy/20">
-        <img src="/images/texasassociationofmuseums/tam-2026-program-square.png" alt="Texas Association of Museums 2026 conference program cover — a featured ColorWorks project" className="object-cover" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} loading="eager" />
-      </div>
+        <img src={`/_next/image?url=${encodeURIComponent("/images/texasassociationofmuseums/tam-2026-program-square.png")}&w=1080&q=75`} alt="Texas Association of Museums 2026 conference program cover — a featured ColorWorks project" className="object-cover" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }} loading="eager" />      </div>
 
       {/* Solid gold circle accent — replaces the squiggle */}
       <div
