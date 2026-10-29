@@ -50,7 +50,7 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
           method="POST"
           data-netlify="true"
           netlify-honeypot="bot-field"
-                  action="/project-inquiry-form.html"
+                            action="/?submitted=true"
           className="rounded-3xl border border-border bg-card p-7 md:p-10 shadow-[0_24px_60px_-30px_rgba(36,51,84,0.30)] mb-10 lg:mb-14"
           aria-label="Project inquiry form"
         >
