@@ -254,6 +254,12 @@ window.declineCookies = function() {
   var bar = document.getElementById('cookie-bar');
   if (bar) bar.style.display = 'none';
 };
+document.addEventListener('DOMContentLoaded', function() {
+  var acceptBtn = document.getElementById('cookie-accept');
+  var declineBtn = document.getElementById('cookie-decline');
+  if (acceptBtn) acceptBtn.onclick = window.acceptCookies;
+  if (declineBtn) declineBtn.onclick = window.declineCookies;
+});
 `;
 
 export default function RootLayout({
@@ -285,16 +291,16 @@ export default function RootLayout({
                 </p>
               </div>
               <div className="flex items-center gap-3 shrink-0">
-                <button
+                                <button
                   type="button"
-                  onClick={() => window.declineCookies()}
+                  id="cookie-decline"
                   className="rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white/80 hover:bg-white/10 transition-colors"
                 >
                   Decline
                 </button>
                 <button
                   type="button"
-                  onClick={() => window.acceptCookies()}
+                  id="cookie-accept"
                   className="rounded-full bg-coral px-5 py-2 text-sm font-semibold text-white hover:bg-[#b35f3d] transition-colors"
                 >
                   Accept
