@@ -73,8 +73,7 @@ export function SiteHeader() {
 
         {/* CTA + mobile toggle */}
         <div className="flex items-center gap-3">
-          <Link href="#contact" className="hidden md:inline-flex cw-btn-primary">
-            Start a Project
+          <Link href="#contact" className="hidden lg:inline-flex cw-btn-primary"> 
           </Link>
           <button
             type="button"
