@@ -1,10 +1,43 @@
-import { Phone, Mail, MapPin, ArrowUpRight, Instagram, Facebook, Linkedin, CheckCircle2 } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Phone, Mail, MapPin, ArrowUpRight, Instagram, Facebook, Linkedin, CheckCircle2, Loader2 } from "lucide-react";
 import { SITE } from "@/lib/site-data";
 
+type FormState = "idle" | "submitting" | "success" | "error";
+
 export function Contact({ submitted = false }: { submitted?: boolean }) {
+  const [formState, setFormState] = useState<FormState>(submitted ? "success" : "idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormState("submitting");
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+
+      if (response.ok) {
+        setFormState("success");
+        window.history.replaceState({}, "", "/?submitted=true");
+        setTimeout(() => {
+          document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      } else {
+        setFormState("error");
+      }
+    } catch (err) {
+      setFormState("error");
+    }
+  };
+
   return (
     <section id="contact" className="cw-section bg-background relative overflow-hidden">
-      {/* Subtle solid color block accent */}
       <div
         className="absolute top-0 right-0 w-[36%] h-[40%] bg-coral-soft/60 -z-10"
         aria-hidden="true"
@@ -12,9 +45,7 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
       />
 
       <div className="cw-container relative">
-        {/* Header */}
         <div className="max-w-3xl mb-12 lg:mb-16">
-          {/* Hand-drawn "Say Hello" icon */}
           <img src="/images/brand/Say Hello.svg" alt="" width={130} height={96} className="w-28 md:w-32 h-auto mb-7" loading="lazy" decoding="async" />
           <p className="cw-eyebrow mb-5">Let's work together</p>
           <h2 className="cw-display text-4xl md:text-5xl lg:text-6xl">
@@ -27,10 +58,7 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
           </p>
         </div>
 
-        {/* Form on top — full width, horizontal layout.
-            Wired to Netlify Forms — submissions are captured by Netlify at deploy
-            time (via the hidden static HTML form in /public) and forwarded to email. */}
-        {submitted && (
+        {formState === "success" && (
           <div className="rounded-3xl border border-sage/40 bg-sage/10 p-7 md:p-10 mb-10 lg:mb-14 flex items-center gap-4">
             <CheckCircle2 className="text-sage shrink-0" size={32} />
             <div>
@@ -45,16 +73,32 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
           </div>
         )}
 
+        {formState === "error" && (
+          <div className="rounded-3xl border border-coral/40 bg-coral-soft/30 p-7 md:p-10 mb-10 lg:mb-14 flex items-center gap-4">
+            <div className="text-coral shrink-0 text-2xl">!</div>
+            <div>
+              <h3 className="font-display text-xl font-bold text-navy">
+                Something went wrong.
+              </h3>
+              <p className="text-sm text-slate mt-1">
+                Please try again, or email us directly at{" "}
+                <a href={`mailto:${SITE.email}`} className="text-coral font-semibold underline">
+                  {SITE.email}
+                </a>
+              </p>
+            </div>
+          </div>
+        )}
+
         <form
           name="project-inquiry"
           method="POST"
           data-netlify="true"
           netlify-honeypot="bot-field"
-                            action="/?submitted=true"
+          onSubmit={handleSubmit}
           className="rounded-3xl border border-border bg-card p-7 md:p-10 shadow-[0_24px_60px_-30px_rgba(36,51,84,0.30)] mb-10 lg:mb-14"
           aria-label="Project inquiry form"
         >
-          {/* Hidden fields required by Netlify Forms */}
           <input type="hidden" name="form-name" value="project-inquiry" />
           <p className="hidden">
             <label>
@@ -79,7 +123,6 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
             </p>
           </div>
 
-          {/* Horizontal form fields — name + email + company side by side, message full width */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
             <Field label="Your name" htmlFor="cf-name">
               <input
@@ -90,6 +133,7 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
                 autoComplete="name"
                 className="cw-input"
                 placeholder="Jane Designer"
+                disabled={formState === "submitting"}
               />
             </Field>
             <Field label="Email" htmlFor="cf-email">
@@ -101,6 +145,7 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
                 autoComplete="email"
                 className="cw-input"
                 placeholder="you@example.com"
+                disabled={formState === "submitting"}
               />
             </Field>
             <Field label="Company / Organization" htmlFor="cf-org" optional>
@@ -110,6 +155,7 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
                 type="text"
                 className="cw-input"
                 placeholder="Acme Co."
+                disabled={formState === "submitting"}
               />
             </Field>
           </div>
@@ -123,21 +169,33 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
                 rows={3}
                 className="cw-input resize-none"
                 placeholder="I'm looking for help with..."
+                disabled={formState === "submitting"}
               />
             </Field>
           </div>
 
           <div className="mt-5 flex justify-end">
-            <button type="submit" className="cw-btn-primary">
-              Send message
-              <ArrowUpRight size={16} />
+            <button
+              type="submit"
+              disabled={formState === "submitting"}
+              className="cw-btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {formState === "submitting" ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  Send message
+                  <ArrowUpRight size={16} />
+                </>
+              )}
             </button>
           </div>
         </form>
 
-        {/* Contact bubbles below the form — 4 across */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
-          {/* Email — first priority */}
           <ContactCard
             href={`mailto:${SITE.email}`}
             icon={<Mail size={20} />}
@@ -145,7 +203,6 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
             value={SITE.email}
             accent="coral"
           />
-          {/* Social — second priority */}
           <ContactCard
             href={SITE.social.instagram}
             icon={<Instagram size={20} />}
@@ -154,7 +211,6 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
             accent="gold"
             external
           />
-          {/* Service area */}
           <ContactCard
             href="#top"
             icon={<MapPin size={20} />}
@@ -162,7 +218,6 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
             value="Austin, San Antonio & Beyond"
             accent="sage"
           />
-          {/* Phone — last (don't prefer calls) */}
           <ContactCard
             href={SITE.phoneHref}
             icon={<Phone size={20} />}
@@ -172,7 +227,6 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
           />
         </div>
       </div>
-
     </section>
   );
 }
@@ -235,28 +289,6 @@ function ContactCard({
         <p className="font-display text-base font-bold text-navy truncate">{value}</p>
       </div>
       <ArrowUpRight size={16} className="ml-auto text-slate group-hover:text-coral transition-colors" />
-    </a>
-  );
-}
-
-function SocialBtn({
-  href,
-  label,
-  icon,
-}: {
-  href: string;
-  label: string;
-  icon: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border text-navy hover:bg-navy hover:text-cream transition-all"
-    >
-      {icon}
     </a>
   );
 }
