@@ -2,8 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Mulish } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { GoogleAnalytics } from "@/components/site/google-analytics";
-import { CookieConsent } from "@/components/site/cookie-consent";
 import { SITE } from "@/lib/site-data";
 
 // Fraunces — a classy, trendy, modern serif for big display headings.
@@ -221,8 +219,6 @@ export default function RootLayout({
         />
         {children}
         <Toaster />
-                <GoogleAnalytics />
-        <CookieConsent />
       </body>
     </html>
   );
