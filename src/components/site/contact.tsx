@@ -217,7 +217,6 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
             value="Austin, San Antonio & Beyond"
             accent="sage"
           />
-          />
           <ContactCard
             href={SITE.phoneHref}
             icon={<Phone size={20} />}
