@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Mulish } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { GoogleAnalytics } from "@/components/site/google-analytics";
+import { CookieConsent } from "@/components/site/cookie-consent";
 import { SITE } from "@/lib/site-data";
 
 // Fraunces — a classy, trendy, modern serif for big display headings.
@@ -147,6 +149,36 @@ const jsonLd = {
         "Infographic design",
         "Wayfinding design",
         "Graphic design",
+            {
+      "@type": "FAQPage",
+      "@id": `${SITE.url}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What graphic design services does ColorWorks Creative offer?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "ColorWorks Creative offers logo design and branding, print and editorial design, package design, advertising and marketing design, environmental and wayfinding design, and ongoing design retainer services.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Where is ColorWorks Creative located?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "ColorWorks Creative is a service-area business based in Austin, Texas, serving Austin, San Antonio, and across Texas. Founded in 2018, female-owned and minority-owned.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the design process at ColorWorks Creative?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Our four-step process: Client Intake, Project Proposal, First Draft and Revisions, and Project Delivery. We work with one person from start to finish.",
+          },
+        },
+      ],
+    },
       ],
     },
     {
@@ -189,6 +221,8 @@ export default function RootLayout({
         />
         {children}
         <Toaster />
+                <GoogleAnalytics />
+        <CookieConsent />
       </body>
     </html>
   );
