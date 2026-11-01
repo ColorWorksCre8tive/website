@@ -212,11 +212,11 @@ export function Contact({ submitted = false }: { submitted?: boolean }) {
             external
           />
           <ContactCard
-            href="#top"
             icon={<MapPin size={20} />}
             label="Service area"
             value="Austin, San Antonio & Beyond"
             accent="sage"
+          />
           />
           <ContactCard
             href={SITE.phoneHref}
@@ -261,7 +261,7 @@ function ContactCard({
   accent,
   external,
 }: {
-  href: string;
+  href?: string;
   icon: React.ReactNode;
   label: string;
   value: string;
@@ -274,21 +274,38 @@ function ContactCard({
     sage: "bg-sage/15 text-sage-deep",
     navy: "bg-navy/10 text-navy",
   };
-  return (
-    <a
-      href={href}
-      target={external ? "_blank" : undefined}
-      rel={external ? "noopener noreferrer" : undefined}
-      className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 md:p-5 transition-all hover:border-coral/40 hover:shadow-lg hover:shadow-navy/5"
-    >
-      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${tones[accent]}`}>
+
+  const content = (
+    <>
+      <span className={`inline-flex h-12 w-12 items-center justify-center rounded-xl shrink-0 ${tones[accent]}`}>
         {icon}
       </span>
-      <div className="min-w-0">
+      <div className="min-w-0 flex-1">
         <p className="text-xs font-semibold uppercase tracking-wider text-slate/70">{label}</p>
-        <p className="font-display text-base font-bold text-navy truncate">{value}</p>
+        <p className="font-display text-sm md:text-base font-bold text-navy leading-tight break-words">{value}</p>
       </div>
-      <ArrowUpRight size={16} className="ml-auto text-slate group-hover:text-coral transition-colors" />
-    </a>
+      {href && <ArrowUpRight size={16} className="ml-auto shrink-0 text-slate group-hover:text-coral transition-colors" />}
+    </>
+  );
+
+  const className = "group flex items-center gap-4 rounded-2xl border border-border bg-card p-4 md:p-5 transition-all hover:border-coral/40 hover:shadow-lg hover:shadow-navy/5";
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={external ? "_blank" : undefined}
+        rel={external ? "noopener noreferrer" : undefined}
+        className={className}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div className={className}>
+      {content}
+    </div>
   );
 }
