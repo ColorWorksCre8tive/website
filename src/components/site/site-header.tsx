@@ -58,7 +58,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1" aria-label="Primary">
+        <nav className="hidden lg:flex items-center gap-1" aria-label="Primary">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
