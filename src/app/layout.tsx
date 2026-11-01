@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Mulish } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SITE } from "@/lib/site-data";
 
-// Fraunces — a classy, trendy, modern serif for big display headings.
-// Has optical sizing, soft/wonky settings, and a literary editorial feel.
 const fraunces = Fraunces({
   variable: "--font-display",
   subsets: ["latin"],
@@ -14,7 +13,6 @@ const fraunces = Fraunces({
   axes: ["SOFT", "WONK"],
 });
 
-// Mulish — clean geometric sans for body text (kept from before).
 const mulish = Mulish({
   variable: "--font-body",
   subsets: ["latin"],
@@ -41,7 +39,10 @@ export const metadata: Metadata = {
     "impact report design",
     "menu design",
     "colorworks creative",
-    "Karli Burton graphic designer",
+    "Karli Isiyel graphic designer",
+    "Austin TX design studio",
+    "brand identity Austin",
+    "packaging design Texas",
   ],
   authors: [{ name: SITE.founder }],
   creator: SITE.founder,
@@ -95,9 +96,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// JSON-LD structured data for SEO/GEO/AIO.
-// Service-area business (no public street address — matches GMB setup).
-// We use areaServed + ServiceArea types instead of a PostalAddress with a fake street.
 const jsonLd = {
   "@context": "https://schema.org",
   "@graph": [
@@ -112,20 +110,17 @@ const jsonLd = {
       telephone: SITE.phone,
       founder: { "@type": "Person", name: SITE.founder },
       foundingDate: String(SITE.founded),
-      // Service-area business: addressLocality only, no streetAddress (matches GMB).
       address: {
         "@type": "PostalAddress",
         addressLocality: SITE.address.locality,
         addressRegion: SITE.address.region,
         addressCountry: SITE.address.country,
       },
-      // Centroid of service area (Austin metro) — not a physical address.
       geo: {
         "@type": "GeoCoordinates",
         latitude: SITE.geo.lat,
         longitude: SITE.geo.lng,
       },
-      // Geographic areas served — used for local pack / map ranking.
       areaServed: [
         { "@type": "City", name: "Austin, TX" },
         { "@type": "City", name: "San Antonio, TX" },
@@ -147,36 +142,6 @@ const jsonLd = {
         "Infographic design",
         "Wayfinding design",
         "Graphic design",
-            {
-      "@type": "FAQPage",
-      "@id": `${SITE.url}/#faq`,
-      mainEntity: [
-        {
-          "@type": "Question",
-          name: "What graphic design services does ColorWorks Creative offer?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "ColorWorks Creative offers logo design and branding, print and editorial design, package design, advertising and marketing design, environmental and wayfinding design, and ongoing design retainer services.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "Where is ColorWorks Creative located?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "ColorWorks Creative is a service-area business based in Austin, Texas, serving Austin, San Antonio, and across Texas. Founded in 2018, female-owned and minority-owned.",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "What is the design process at ColorWorks Creative?",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "Our four-step process: Client Intake, Project Proposal, First Draft and Revisions, and Project Delivery. We work with one person from start to finish.",
-          },
-        },
-      ],
-    },
       ],
     },
     {
@@ -185,11 +150,6 @@ const jsonLd = {
       url: SITE.url,
       name: SITE.name,
       publisher: { "@id": `${SITE.url}/#business` },
-      potentialAction: {
-        "@type": "SearchAction",
-        target: `${SITE.url}/?s={search_term_string}`,
-        "query-input": "required name=search_term_string",
-      },
     },
     {
       "@type": "BreadcrumbList",
@@ -202,8 +162,99 @@ const jsonLd = {
         { "@type": "ListItem", position: 5, name: "Contact", item: `${SITE.url}/#contact` },
       ],
     },
+    {
+      "@type": "FAQPage",
+      "@id": `${SITE.url}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "What graphic design services does ColorWorks Creative offer?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "ColorWorks Creative offers logo design and branding, print and editorial design, package design, advertising and marketing design, environmental and wayfinding design, and ongoing design retainer services. We serve clients in Austin, TX, San Antonio, TX, and beyond.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Where is ColorWorks Creative located?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "ColorWorks Creative is a service-area business based in Austin, Texas. We serve clients in Austin, San Antonio, and across Texas. Founded in 2018, we are a female-owned and minority-owned boutique graphic design studio.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How much does graphic design cost?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Graphic design costs vary depending on the scope of the project. ColorWorks Creative offers project-based pricing for one-time design work and monthly retainer options for ongoing design support. Contact us for a custom proposal.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the design process at ColorWorks Creative?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Our process has four steps: Client Intake, Project Proposal, First Draft and Revisions, and Project Delivery. We work with one person from start to finish for a seamless experience.",
+          },
+        },
+      ],
+    },
+    {
+      "@type": "Service",
+      name: "Logo Design and Branding",
+      provider: { "@id": `${SITE.url}/#business` },
+      areaServed: [{ "@type": "City", name: "Austin, TX" }],
+    },
+    {
+      "@type": "Service",
+      name: "Print and Editorial Design",
+      provider: { "@id": `${SITE.url}/#business` },
+      areaServed: [{ "@type": "City", name: "Austin, TX" }],
+    },
+    {
+      "@type": "Service",
+      name: "Package Design",
+      provider: { "@id": `${SITE.url}/#business` },
+      areaServed: [{ "@type": "City", name: "Austin, TX" }],
+    },
   ],
 };
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+
+const cookieConsentScript = `
+(function() {
+  var consent = localStorage.getItem('cookie-consent');
+  if (consent === 'accepted' && '${GA_ID || ""}') {
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=${GA_ID || ""}';
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '${GA_ID || ""}');
+  }
+  if (!consent) {
+    setTimeout(function() {
+      var bar = document.getElementById('cookie-bar');
+      if (bar) bar.style.display = 'block';
+    }, 1500);
+  }
+})();
+window.acceptCookies = function() {
+  localStorage.setItem('cookie-consent', 'accepted');
+  var bar = document.getElementById('cookie-bar');
+  if (bar) bar.style.display = 'none';
+  location.reload();
+};
+window.declineCookies = function() {
+  localStorage.setItem('cookie-consent', 'declined');
+  var bar = document.getElementById('cookie-bar');
+  if (bar) bar.style.display = 'none';
+};
+`;
 
 export default function RootLayout({
   children,
@@ -217,8 +268,41 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        <Script id="ga-and-cookie-consent" strategy="afterInteractive">
+          {cookieConsentScript}
+        </Script>
         {children}
         <Toaster />
+        <div id="cookie-bar" style={{ display: "none" }} className="fixed bottom-0 inset-x-0 z-[200] bg-navy text-white shadow-2xl">
+          <div className="cw-container py-4 md:py-5">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-start gap-3 max-w-2xl">
+                <span className="text-xl mt-0.5 shrink-0">🍪</span>
+                <p className="text-sm text-white/80 leading-relaxed">
+                  We use cookies to understand how visitors use our site and to
+                  improve your experience. By clicking &quot;Accept&quot;, you agree to our
+                  use of analytics cookies.
+                </p>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => window.declineCookies()}
+                  className="rounded-full border border-white/30 px-5 py-2 text-sm font-semibold text-white/80 hover:bg-white/10 transition-colors"
+                >
+                  Decline
+                </button>
+                <button
+                  type="button"
+                  onClick={() => window.acceptCookies()}
+                  className="rounded-full bg-coral px-5 py-2 text-sm font-semibold text-white hover:bg-[#b35f3d] transition-colors"
+                >
+                  Accept
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </body>
     </html>
   );
