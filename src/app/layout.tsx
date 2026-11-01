@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Mulish } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { SITE } from "@/lib/site-data";
@@ -274,9 +273,10 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Script id="ga-and-cookie-consent" strategy="afterInteractive">
-          {cookieConsentScript}
-        </Script>
+                <script
+          type="text/javascript"
+          dangerouslySetInnerHTML={{ __html: cookieConsentScript }}
+        />
         {children}
         <Toaster />
         <div id="cookie-bar" style={{ display: "none" }} className="fixed bottom-0 inset-x-0 z-[200] bg-navy text-white shadow-2xl">
