@@ -2,9 +2,10 @@
 
 import { useScrollReveal } from "@/lib/use-scroll-reveal";
 import { Hero } from "@/components/site/hero";
-import { Work } from "@/components/site/work";
-import { Philosophy } from "@/components/site/philosophy";
+import { FeaturedWork } from "@/components/site/featured-work";
 import { Services } from "@/components/site/services";
+import { ArchiveWork } from "@/components/site/archive-work";
+import { Philosophy } from "@/components/site/philosophy";
 import { Testimonials } from "@/components/site/testimonials";
 import { About } from "@/components/site/about";
 import { Blog } from "@/components/site/blog";
@@ -20,9 +21,10 @@ export default function Home() {
       <SiteHeader />
       <main className="flex-1">
         <Hero />
-        <Work />
-        <Philosophy />
+        <FeaturedWork />
         <Services />
+        <ArchiveWork />
+        <Philosophy />
         <Testimonials />
         <About />
         <Blog />
